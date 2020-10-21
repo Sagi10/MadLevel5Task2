@@ -11,5 +11,5 @@ interface GameDao {
     suspend fun insertGame(game: Game)
 
     @Query("SELECT * from Game")
-    suspend fun getAllGames(games: LiveData<List<Game>>)
+    fun getAllGames(): LiveData<List<Game>>
 }
