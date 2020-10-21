@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.lalee.madlevel5task2.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -17,8 +18,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         fab.setOnClickListener {
-            Snackbar.make(it, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            findNavController(R.id.nav_host_fragment).navigate(R.id.action_FirstFragment_to_SecondFragment)
+//            findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
+//                if (destination.id == R.id.SecondFragment)
+//                    fab.setImageResource(R.drawable.ic_baseline_save_24)
+//                fab.setOnClickListener {
+//                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_SecondFragment_to_FirstFragment)
+//                }
+//                if (destination.id == R.id.FirstFragment){
+//                    fab.setImageResource(R.drawable.ic_baseline_add_24)
+//
+//                }
+//            }
         }
     }
 

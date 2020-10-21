@@ -8,7 +8,7 @@ import com.lalee.madlevel5task2.R
 import com.lalee.madlevel5task2.model.Game
 import kotlinx.android.synthetic.main.item_game.view.*
 
-class GameAdapter(private val games: List<Game>) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
+class GameAdapter(private var games: List<Game>) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_game, parent, false))
