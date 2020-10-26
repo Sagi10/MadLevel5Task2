@@ -6,11 +6,15 @@ import com.google.android.material.snackbar.Snackbar
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.lalee.madlevel5task2.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_fab.*
 
 class MainActivity : AppCompatActivity() {
+
+    private var navController: Int = R.id.nav_host_fragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,18 +22,18 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         fab.setOnClickListener {
-            findNavController(R.id.nav_host_fragment).navigate(R.id.action_FirstFragment_to_SecondFragment)
-//            findNavController(R.id.nav_host_fragment).addOnDestinationChangedListener { _, destination, _ ->
-//                if (destination.id == R.id.SecondFragment)
-//                    fab.setImageResource(R.drawable.ic_baseline_save_24)
-//                fab.setOnClickListener {
-//                    findNavController(R.id.nav_host_fragment).navigate(R.id.action_SecondFragment_to_FirstFragment)
-//                }
-//                if (destination.id == R.id.FirstFragment){
-//                    fab.setImageResource(R.drawable.ic_baseline_add_24)
-//
-//                }
-//            }
+            findNavController(navController).navigate(R.id.action_FirstFragment_to_SecondFragment)
+            fabToggler()
+        }
+    }
+
+    private fun fabToggler() {
+        findNavController(navController).addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.id == R.id.SecondFragment) {
+                fab.hide()
+            } else if (destination.id == R.id.FirstFragment) {
+                fab.show()
+            }
         }
     }
 

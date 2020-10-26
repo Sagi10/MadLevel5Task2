@@ -23,7 +23,7 @@ abstract class GameDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao
 
     companion object {
-        private const val DATABASE_NAME = "GAME_DATABASE"
+        private const val DATABASE_NAME = "GAME_DATABASE2"
 
         @Volatile
         private var INSTANCE: GameDatabase? = null

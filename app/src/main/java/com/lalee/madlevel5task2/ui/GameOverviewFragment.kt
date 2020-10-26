@@ -46,7 +46,6 @@ class GameOverviewFragment : Fragment() {
         //val gameList = generateDummyList(20)
 
         initRV()
-
         observerAddGameResult()
     }
 
@@ -63,15 +62,6 @@ class GameOverviewFragment : Fragment() {
             this@GameOverviewFragment.games.addAll(it)
             gameAdapter.notifyDataSetChanged()
         })
-    }
-
-    private fun generateDummyList(size: Int): List<Game> {
-        val list = ArrayList<Game>()
-        for (i in 0 until size) {
-            val item = Game("Title $i", Platform.XBOX, Date())
-            list += item
-        }
-        return list
     }
 
     /**
@@ -100,5 +90,14 @@ class GameOverviewFragment : Fragment() {
             }
         }
         return ItemTouchHelper(callback)
+    }
+
+    private fun generateDummyList(size: Int): List<Game> {
+        val list = ArrayList<Game>()
+        for (i in 0 until size) {
+            val item = Game("Title $i", Platform.XBOX, Date())
+            list += item
+        }
+        return list
     }
 }
