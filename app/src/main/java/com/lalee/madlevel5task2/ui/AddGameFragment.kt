@@ -64,12 +64,17 @@ class AddGameFragment : Fragment() {
                 platform = onRadioButtonClicked(it)!!
             }
         }
+
         fab.setOnClickListener {
-            Toast.makeText(activity, "CLICKED", Toast.LENGTH_SHORT).show()
-          //  addGameToBackLog(input_title.text.toString(), platform!!)
+            if (platform == null) {
+                Toast.makeText(activity, "Title and platform must be filled in", Toast.LENGTH_SHORT).show()
+            } else {
+                addGameToBackLog(input_title.text.toString(), platform!!)
+            }
         }
         observeInputFields()
     }
+
 
     /**
      * Observe if the input field are correct.

@@ -43,14 +43,14 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun validateGameInput(game: Game): Boolean {
         return when {
-            game.platform.toString().isEmpty() -> {
-                error.value = "Platform must be chosen"
-                false
-            }
             game.titel.isBlank() || game.titel.isEmpty() -> {
                 error.value = "Title must be filled in"
                 false
             }
+//            game.platform.toString().isEmpty() -> {
+//                error.value = "Platform must be chosen"
+//                false
+//            }
             else -> true
         }
     }
