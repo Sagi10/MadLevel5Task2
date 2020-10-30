@@ -8,5 +8,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="choose_release_date">CHOOSE RELEASE DATE</string>
+    <string name="xbox">XBOX</string>
+    <string name="playstation">PLAYSTATION</string>
+    <string name="pc">PC</string>
 
 </resources>

@@ -10,6 +10,12 @@ interface GameDao {
     @Insert
     suspend fun insertGame(game: Game)
 
-    @Query("SELECT * from Game")
+    @Query("DELETE FROM Game WHERE id = :id")
+    suspend fun deleteGame(id: Long)
+
+    @Query("SELECT * FROM Game")
     fun getAllGames(): LiveData<List<Game>>
+
+    @Query("DELETE FROM Game")
+    suspend fun deleteAllGames()
 }

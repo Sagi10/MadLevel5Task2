@@ -33,6 +33,7 @@
                         android:id="@+id/input_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:maxLines="1"
                         android:hint="Title" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,49 +49,36 @@
                     android:orientation="horizontal">
 
                     <RadioGroup
-                        android:layout_width="wrap_content"
+                        android:id="@+id/radio_group"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:layout_weight="3"
-                        >
+                        android:orientation="horizontal">
 
-                        <RadioButton android:id="@+id/radio_xbox"
+                        <RadioButton
+                            android:id="@+id/radio_xbox"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="XBOX"
-                            android:onClick="onRadioButtonClicked"/>
+                            android:text="@string/xbox" />
 
-                        <RadioButton android:id="@+id/radio_playstation"
+                        <RadioButton
+                            android:id="@+id/radio_playstation"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="PLAYSTATION"
-                            android:onClick="onRadioButtonClicked"/>
+                            android:text="@string/playstation" />
 
-                        <RadioButton android:id="@+id/radio_pc"
+                        <RadioButton
+                            android:id="@+id/radio_pc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="PC"
-                            android:onClick="onRadioButtonClicked"/>
+                            android:text="@string/pc" />
 
                     </RadioGroup>
 
                 </LinearLayout>
-
-<!--                <com.google.android.material.textfield.TextInputLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-<!--                    <com.google.android.material.textfield.TextInputEditText-->
-<!--                        android:id="@+id/input_platform"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:hint="Platform" />-->
-
-
-<!--                </com.google.android.material.textfield.TextInputLayout>-->
 
                 <Button
                     android:id="@+id/btn_date_ok"

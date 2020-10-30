@@ -1,13 +1,14 @@
 package com.lalee.madlevel5task2.ui
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +19,7 @@ import com.lalee.madlevel5task2.model.Game
 import com.lalee.madlevel5task2.model.Platform
 import com.lalee.madlevel5task2.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.fragment_game_overview.*
-import kotlinx.android.synthetic.main.item_game.*
+import kotlinx.android.synthetic.main.item_fab.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -57,7 +58,7 @@ class GameOverviewFragment : Fragment() {
     }
 
     private fun observerAddGameResult(){
-        gameViewModel.allGames.observe(viewLifecycleOwner, Observer {
+        gameViewModel.allGames.observe(viewLifecycleOwner, {
             this@GameOverviewFragment.games.clear()
             this@GameOverviewFragment.games.addAll(it)
             gameAdapter.notifyDataSetChanged()
@@ -86,7 +87,48 @@ class GameOverviewFragment : Fragment() {
 
             // Callback triggered when a user swiped an item.
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                //TODO
+                val position = viewHolder.adapterPosition
+                val gameToDelete = games[position]
+
+                gameAdapter.removeAndUndoGame(viewHolder)
+                gameToDelete.id?.let { gameViewModel.deleteGame(it) }
+                gameAdapter.notifyDataSetChanged()
+            }
+
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                val itemView = viewHolder.itemView
+                val backgroundColor = ColorDrawable(Color.RED)
+
+                if (dX > 0) {
+                    //do something because right is swiped
+                } else {
+                    // swiped left
+                    backgroundColor.setBounds(
+                        itemView.right + dX.toInt(),
+                        itemView.top,
+                        itemView.right,
+                        itemView.bottom
+                    )
+                }
+                backgroundColor.draw(c)
+
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
             }
         }
         return ItemTouchHelper(callback)
