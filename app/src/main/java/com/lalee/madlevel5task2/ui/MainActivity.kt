@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.item_fab.*
 class MainActivity : AppCompatActivity() {
 
     private var navController: Int = R.id.nav_host_fragment
+    private var deleteMenuItem: MenuItem? = null
 
     private val gameViewModel: GameViewModel by viewModels()
 
@@ -29,10 +30,19 @@ class MainActivity : AppCompatActivity() {
 
         fab.setOnClickListener {
             findNavController(navController).navigate(R.id.action_FirstFragment_to_SecondFragment)
+            findNavController(navController).addOnDestinationChangedListener { controller, destination, arguments ->
+                if (destination.id == R.id.SecondFragment) {
+                    deleteMenuItem?.isVisible = false
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    supportActionBar?.setDisplayShowHomeEnabled(true)
+                } else {
+                    deleteMenuItem?.isVisible = true
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    supportActionBar?.setDisplayShowHomeEnabled(false)
+                }
+            }
             fabToggler()
         }
-
-
     }
 
     private fun fabToggler() {
@@ -48,6 +58,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
+        deleteMenuItem = menu.findItem(R.id.action_settings_delete)
         return true
     }
 
@@ -57,31 +68,41 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings_delete -> {
-                item.setOnMenuItemClickListener {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setMessage("Are you sure you want to DELETE?")
-                        .setCancelable(false)
-                        .setPositiveButton("YES") { _, _ ->
-                            // Delete history
-                            gameViewModel.deleteAllGames()
+                //findNavController(navController).addOnDestinationChangedListener { controller, destination, arguments ->
+                   // if (destination.id == R.id.FirstFragment) {
+                        item.setOnMenuItemClickListener {
+                            val builder = AlertDialog.Builder(this)
+                            builder.setMessage("Are you sure you want to DELETE?")
+                                .setCancelable(false)
+                                .setPositiveButton("YES") { _, _ ->
+                                    // Delete history
+                                    gameViewModel.deleteAllGames()
 
-                            Toast.makeText(
-                                applicationContext,
-                                "HISTORY DELETED",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                        .setNegativeButton("NO") { dialog, _ ->
-                            // Dismiss the dialog
-                            dialog.dismiss()
-                        }
-                    val alert = builder.create()
-                    alert.show()
-                    true
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "HISTORY DELETED",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                .setNegativeButton("NO") { dialog, _ ->
+                                    // Dismiss the dialog
+                                    dialog.dismiss()
+                                }
+                            val alert = builder.create()
+                            alert.show()
+                            true
+
+                      //  }
+                  //  }
                 }
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

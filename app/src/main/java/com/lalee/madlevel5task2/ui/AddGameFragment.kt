@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.lalee.madlevel5task2.R
 import com.lalee.madlevel5task2.model.Game
@@ -23,6 +25,8 @@ import com.lalee.madlevel5task2.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.fragment_add_game.*
 import kotlinx.android.synthetic.main.item_fab.*
 import java.lang.Error
+import java.sql.Date
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalDate.*
 import java.time.LocalDateTime
@@ -38,6 +42,7 @@ class AddGameFragment : Fragment() {
     private val gameViewModel: GameViewModel by viewModels()
 
     private var platform: Platform? = null
+    private var chosenDate: Date? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,21 +60,29 @@ class AddGameFragment : Fragment() {
         fab.setImageResource(R.drawable.ic_baseline_save_24)
 
         btn_date_ok.setOnClickListener {
-            //openDateDialog()
+            openDateDialog()
         }
+
 
         radio_group.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(i)
             checkedRadioButton?.let {
                 platform = onRadioButtonClicked(it)!!
+                Toast.makeText(activity, chosenDate.toString(), Toast.LENGTH_SHORT).show()
             }
         }
 
         fab.setOnClickListener {
-            if (platform == null) {
-                Toast.makeText(activity, "Title and platform must be filled in", Toast.LENGTH_SHORT).show()
-            } else {
-                addGameToBackLog(input_title.text.toString(), platform!!)
+            when {
+                platform == null -> {
+                    Toast.makeText(activity, "Title and platform must be filled in", Toast.LENGTH_SHORT).show()
+                }
+                chosenDate == null -> {
+                    Toast.makeText(activity, "Date must be chosen", Toast.LENGTH_SHORT).show()
+                }
+                else -> {
+                    addGameToBackLog(input_title.text.toString(), platform!!, chosenDate!!)
+                }
             }
         }
         observeInputFields()
@@ -89,8 +102,9 @@ class AddGameFragment : Fragment() {
         })
     }
 
-    private fun addGameToBackLog(title: String, platform: Platform) {
-        gameViewModel.insertGame(Game(title, platform, Date()))
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun addGameToBackLog(title: String, platform: Platform, releaseDate: Date) {
+        gameViewModel.insertGame(Game(title, platform, releaseDate))
     }
 
     private fun onRadioButtonClicked(view: View): Platform? {
@@ -118,25 +132,25 @@ class AddGameFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun openDateDialog(): LocalDate? {
-        val calender = Calendar.getInstance()
-        val year = calender.get(Calendar.YEAR)
-        val month = calender.get(Calendar.MONTH)
-        val day = calender.get(Calendar.DAY_OF_MONTH)
-        var dateString: String
-        var date: LocalDate? = null
+    private fun openDateDialog() {
 
-        val dpd = context?.let { it2 ->
-            DatePickerDialog(it2, { _, yearr, monthOfYear, dayOfMonth ->
-                // Display Selected date in TextView
-                tv_date_output.text =
-                    String.format("Chosen release date: %s-%s-%s ", yearr, monthOfYear, dayOfMonth)
-                dateString = String.format("%s %s %s", yearr, monthOfYear, dayOfMonth)
-                date = parse(dateString, DateTimeFormatter.ISO_DATE_TIME)
-                Toast.makeText(activity, date.toString(), Toast.LENGTH_SHORT).show()
-            }, year, month, day)
-        }
-        dpd!!.show()
-        return date
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd =
+            activity?.let {
+                DatePickerDialog(it, DatePickerDialog.OnDateSetListener { view, yearr, monthOfYear, dayOfMonth ->
+
+                    // Display Selected date in textbox
+                    tv_date_output.text =
+                    String.format("%s-%s-%s", dayOfMonth, monthOfYear + 1, yearr)
+                    val d = of(yearr, monthOfYear + 1, dayOfMonth)
+                    chosenDate = Date.valueOf(d.toString())
+                }, year, month, day)
+            }
+        dpd?.datePicker?.minDate = System.currentTimeMillis() - 1000
+        dpd?.show()
     }
 }

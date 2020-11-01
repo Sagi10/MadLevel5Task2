@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.LocalDate
 import java.util.*
 
 @Database(entities = [Game::class], version = 1, exportSchema = false)
@@ -23,7 +24,7 @@ abstract class GameDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao
 
     companion object {
-        private const val DATABASE_NAME = "GAME_DATABASE2"
+        private const val DATABASE_NAME = "GAMEBACKLOG_DATABASE"
 
         @Volatile
         private var INSTANCE: GameDatabase? = null

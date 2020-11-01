@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.lalee.madlevel5task2.R
 import com.lalee.madlevel5task2.model.Game
+import com.lalee.madlevel5task2.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.item_game.view.*
 
 class GameAdapter(private var games: MutableList<Game>) : RecyclerView.Adapter<GameAdapter.ViewHolder>() {
@@ -36,16 +37,13 @@ class GameAdapter(private var games: MutableList<Game>) : RecyclerView.Adapter<G
         }
     }
 
-    fun insertGame(viewHolder: RecyclerView.ViewHolder){
-
-    }
-
     fun removeAndUndoGame(viewHolder: RecyclerView.ViewHolder) {
         removedPositon = viewHolder.adapterPosition
         removedItem = games[viewHolder.adapterPosition]
 
         games.removeAt(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
+
 
         Snackbar.make(viewHolder.itemView, "${removedItem.titel}, deleted", Snackbar.LENGTH_LONG)
             .setAction("UNDO") {

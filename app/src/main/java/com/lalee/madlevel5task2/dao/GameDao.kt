@@ -13,7 +13,7 @@ interface GameDao {
     @Query("DELETE FROM Game WHERE id = :id")
     suspend fun deleteGame(id: Long)
 
-    @Query("SELECT * FROM Game")
+    @Query("SELECT * FROM Game ORDER BY releaseDate ASC")
     fun getAllGames(): LiveData<List<Game>>
 
     @Query("DELETE FROM Game")
