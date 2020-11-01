@@ -63,12 +63,10 @@ class AddGameFragment : Fragment() {
             openDateDialog()
         }
 
-
         radio_group.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
             val checkedRadioButton = radioGroup.findViewById<RadioButton>(i)
             checkedRadioButton?.let {
                 platform = onRadioButtonClicked(it)!!
-                Toast.makeText(activity, chosenDate.toString(), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -141,11 +139,11 @@ class AddGameFragment : Fragment() {
 
         val dpd =
             activity?.let {
-                DatePickerDialog(it, DatePickerDialog.OnDateSetListener { view, yearr, monthOfYear, dayOfMonth ->
+                DatePickerDialog(it, { view, yearr, monthOfYear, dayOfMonth ->
 
                     // Display Selected date in textbox
                     tv_date_output.text =
-                    String.format("%s-%s-%s", dayOfMonth, monthOfYear + 1, yearr)
+                    String.format("Chosen release date: %s-%s-%s", dayOfMonth, monthOfYear + 1, yearr)
                     val d = of(yearr, monthOfYear + 1, dayOfMonth)
                     chosenDate = Date.valueOf(d.toString())
                 }, year, month, day)

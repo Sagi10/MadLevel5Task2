@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.lalee.madlevel5task2.R
 import com.lalee.madlevel5task2.model.Game
+import com.lalee.madlevel5task2.ui.CHECKGAMEDELETION
 import com.lalee.madlevel5task2.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.item_game.view.*
 
@@ -43,12 +44,14 @@ class GameAdapter(private var games: MutableList<Game>) : RecyclerView.Adapter<G
 
         games.removeAt(viewHolder.adapterPosition)
         notifyItemRemoved(viewHolder.adapterPosition)
+        CHECKGAMEDELETION = true
 
 
         Snackbar.make(viewHolder.itemView, "${removedItem.titel}, deleted", Snackbar.LENGTH_LONG)
             .setAction("UNDO") {
                 games.add(removedPositon, removedItem)
                 notifyItemInserted(removedPositon)
+                CHECKGAMEDELETION = false
             }.show()
     }
 }

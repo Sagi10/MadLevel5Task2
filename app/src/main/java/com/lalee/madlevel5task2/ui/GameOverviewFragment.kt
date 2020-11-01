@@ -22,6 +22,9 @@ import kotlinx.android.synthetic.main.fragment_game_overview.*
 import kotlinx.android.synthetic.main.item_fab.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.timerTask
+
+var CHECKGAMEDELETION = false
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -31,11 +34,11 @@ class GameOverviewFragment : Fragment() {
     private val games = arrayListOf<Game>()
     private val gameAdapter = GameAdapter(games)
 
-    private val gameViewModel : GameViewModel by viewModels()
+    private val gameViewModel: GameViewModel by viewModels()
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_overview, container, false)
@@ -57,7 +60,7 @@ class GameOverviewFragment : Fragment() {
         createItemTouchHelper().attachToRecyclerView(rv_games)
     }
 
-    private fun observerAddGameResult(){
+    private fun observerAddGameResult() {
         gameViewModel.allGames.observe(viewLifecycleOwner, {
             this@GameOverviewFragment.games.clear()
             this@GameOverviewFragment.games.addAll(it)
@@ -91,7 +94,12 @@ class GameOverviewFragment : Fragment() {
                 val gameToDelete = games[position]
 
                 gameAdapter.removeAndUndoGame(viewHolder)
-                gameToDelete.id?.let { gameViewModel.deleteGame(it) }
+
+                Timer().schedule(timerTask {
+                    if (CHECKGAMEDELETION) {
+                        gameToDelete.id?.let { gameViewModel.deleteGame(it) }
+                    }
+                }, 4000)
                 gameAdapter.notifyDataSetChanged()
             }
 
