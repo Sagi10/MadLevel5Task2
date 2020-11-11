@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.lalee.madlevel5task2.R
+import com.lalee.madlevel5task2.adapters.GameAdapter
 import com.lalee.madlevel5task2.viewmodel.GameViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_fab.*

@@ -29,10 +29,10 @@ var CHECKGAMEDELETION = false
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class GameOverviewFragment : Fragment() {
+public class GameOverviewFragment : Fragment() {
 
     private val games = arrayListOf<Game>()
-    private val gameAdapter = GameAdapter(games)
+    val gameAdapter = GameAdapter(games)
 
     private val gameViewModel: GameViewModel by viewModels()
 
@@ -99,7 +99,7 @@ class GameOverviewFragment : Fragment() {
                     if (CHECKGAMEDELETION) {
                         gameToDelete.id?.let { gameViewModel.deleteGame(it) }
                     }
-                }, 4000)
+                }, 4500)
                 gameAdapter.notifyDataSetChanged()
             }
 

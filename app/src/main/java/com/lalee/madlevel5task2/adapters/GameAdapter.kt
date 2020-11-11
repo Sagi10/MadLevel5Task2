@@ -17,6 +17,8 @@ class GameAdapter(private var games: MutableList<Game>) : RecyclerView.Adapter<G
     private var removedPositon: Int = 0
     private lateinit var removedItem: Game
 
+    private lateinit var allRemovedItems: List<Game>
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_game, parent, false))
     }
@@ -53,5 +55,18 @@ class GameAdapter(private var games: MutableList<Game>) : RecyclerView.Adapter<G
                 notifyItemInserted(removedPositon)
                 CHECKGAMEDELETION = false
             }.show()
+    }
+
+    fun removeAllGamesAndUndo(viewHolder: RecyclerView.ViewHolder){
+        allRemovedItems = games // save the last list of games
+
+        games = mutableListOf<Game>() //make a new list
+        notifyDataSetChanged()
+
+        Snackbar.make(viewHolder.itemView, "Backlog deleted", Snackbar.LENGTH_LONG)
+            .setAction("UNDO") {
+                games.addAll(allRemovedItems) // add the saved games list back to games list
+                notifyDataSetChanged()
+            }
     }
 }

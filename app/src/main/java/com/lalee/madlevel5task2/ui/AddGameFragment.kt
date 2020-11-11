@@ -141,14 +141,14 @@ class AddGameFragment : Fragment() {
             activity?.let {
                 DatePickerDialog(it, { view, yearr, monthOfYear, dayOfMonth ->
 
-                    // Display Selected date in textbox
+                    // Display Selected date in textField
                     tv_date_output.text =
                     String.format("Chosen release date: %s-%s-%s", dayOfMonth, monthOfYear + 1, yearr)
                     val d = of(yearr, monthOfYear + 1, dayOfMonth)
                     chosenDate = Date.valueOf(d.toString())
                 }, year, month, day)
             }
-        dpd?.datePicker?.minDate = System.currentTimeMillis() - 1000
+        dpd?.datePicker?.minDate = System.currentTimeMillis() - 1000 // no previous date possible
         dpd?.show()
     }
 }
