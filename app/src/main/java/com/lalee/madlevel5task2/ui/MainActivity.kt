@@ -69,8 +69,6 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings_delete -> {
-                //findNavController(navController).addOnDestinationChangedListener { controller, destination, arguments ->
-                   // if (destination.id == R.id.FirstFragment) {
                         item.setOnMenuItemClickListener {
                             val builder = AlertDialog.Builder(this)
                             builder.setMessage("Are you sure you want to DELETE?")
@@ -92,9 +90,6 @@ class MainActivity : AppCompatActivity() {
                             val alert = builder.create()
                             alert.show()
                             true
-
-                      //  }
-                  //  }
                 }
                 true
             }

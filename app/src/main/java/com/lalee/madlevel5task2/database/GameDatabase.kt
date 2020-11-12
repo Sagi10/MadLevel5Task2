@@ -43,9 +43,9 @@ abstract class GameDatabase : RoomDatabase() {
                                     super.onCreate(db)
                                     INSTANCE?.let {
                                         CoroutineScope(Dispatchers.IO).launch {
-                                                it.gameDao().insertGame(Game("Title 1", Platform.PLAYSTATION, Date()))
-                                                it.gameDao().insertGame(Game("Title 2", Platform.XBOX, Date()))
-                                                it.gameDao().insertGame(Game("Title 3", Platform.PC, Date()))
+                                                it.gameDao().insertGame(Game("GTA V", Platform.PLAYSTATION, Date()))
+                                                it.gameDao().insertGame(Game("God of war", Platform.XBOX, Date()))
+                                                it.gameDao().insertGame(Game("Call of Duty", Platform.PC, Date()))
                                         }
                                     }
                                 }

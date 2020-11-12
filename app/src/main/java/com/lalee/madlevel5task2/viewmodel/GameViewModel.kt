@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.lalee.madlevel5task2.adapters.GameAdapter
 import com.lalee.madlevel5task2.model.Game
 import com.lalee.madlevel5task2.repository.GameRepository
@@ -20,14 +21,13 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     val succes = MutableLiveData<Boolean>()
 
     fun insertGame(game: Game) {
-        if (validateGameInput(game)){
+        if (validateGameInput(game)) {
             CoroutineScope(Dispatchers.IO).launch {
                 gameRepository.insertGame(game)
             }
             succes.value = true
         }
     }
-
 
     fun deleteGame(id: Long) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -47,10 +47,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                 error.value = "Title must be filled in"
                 false
             }
-//            game.platform.toString().isEmpty() -> {
-//                error.value = "Platform must be chosen"
-//                false
-//            }
             else -> true
         }
     }

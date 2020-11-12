@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -33,7 +34,6 @@ public class GameOverviewFragment : Fragment() {
 
     private val games = arrayListOf<Game>()
     val gameAdapter = GameAdapter(games)
-
     private val gameViewModel: GameViewModel by viewModels()
 
     override fun onCreateView(
@@ -48,7 +48,6 @@ public class GameOverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //val gameList = generateDummyList(20)
-
         initRV()
         observerAddGameResult()
     }
@@ -97,7 +96,9 @@ public class GameOverviewFragment : Fragment() {
 
                 Timer().schedule(timerTask {
                     if (CHECKGAMEDELETION) {
-                        gameToDelete.id?.let { gameViewModel.deleteGame(it) }
+                        gameToDelete.id?.let {
+                            gameViewModel.deleteGame(it)
+                        }
                     }
                 }, 4500)
                 gameAdapter.notifyDataSetChanged()
